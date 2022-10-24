@@ -4,7 +4,8 @@
 --f-hover: #c8bfe7ff;
 --search: #b56576ff;
 --s-hover: #e56b6fff;
---box-back: #dad7cdff;
+--history: #FFD4DA;
+--h-hover: #FFECEF;
 }
 
 * {
@@ -20,23 +21,22 @@ h2 {
     padding: 4px;
 }
 
+
 aside {
-    background-color: var();
+    width: 24%;
 }
 
-main {
-    background-color: var();
+p {
+    text-align: center;
 }
 
 .container {
-    max-width: 1200px;
-    margin: .5rem auto;
-    padding: 0 35px;
-    background: var(--header);
+    margin: 0 35px;
 }
 
 .navbar {
     color: white;
+    margin: .5rem auto;
     min-height: 60px;
 }
 
@@ -45,20 +45,69 @@ main {
     justify-content: center;
     align-items: center;
     height: 100%;
+    background: var(--header);
 }
 
 .search-card {
-    background-color: var();
-}
-
-.search-history {
-    background-color: var();
+    margin: 0;
+    text-align: center;
+    border-bottom: dashed 1px gray;
+    padding-bottom: 10px;
 }
 
 .current-weather-card {
-    background-color: var();
+
+}
+
+.search-confirm {
+    width: 80%;
+    margin: 10px 0 0 0 ;
+    padding: 6px 0 0 0;
+    border-radius: 10px;
+    background-color: var(--search);
+}
+
+.search-confirm:hover {
+    background-color: var(--s-hover);
+    cursor: pointer;
+}
+
+.search-options {
+    width: 80%;
+    height: 32px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: var(--history);
+}
+
+.search-options:hover {
+    cursor: pointer;
+    background-color: var(--h-hover);
+}
+
+.search-history {
+    margin: 0;
+    text-align: center;
+    padding-bottom: 10px;
 }
 
 .forecast {
     background-color: var(--forecast);
+}
+
+.weather {
+    border: dotted 2px black;
+    width: 75%;
+}
+
+#main-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+#user-input {
+    width: 80%;
+    height: 32px;
+    padding: 0 0 0 4px;
+    border-radius: 10px;
 }
