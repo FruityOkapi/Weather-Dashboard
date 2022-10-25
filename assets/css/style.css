@@ -16,11 +16,14 @@
     font-weight: 300;
 }
 
-h2 {
+h1 {
     font-weight: 600;
     padding: 4px;
 }
 
+h2 {
+    font-weight: 600;
+}
 
 aside {
     width: 24%;
@@ -28,6 +31,14 @@ aside {
 
 p {
     text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: inline;
 }
 
 .container {
@@ -92,7 +103,11 @@ p {
 }
 
 .forecast {
-    background-color: var(--forecast);
+    display: flex;
+}
+
+.forecast-box:hover {
+    background-color: var(--f-hover);
 }
 
 .weather {

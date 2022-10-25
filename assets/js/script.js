@@ -1,48 +1,60 @@
 var searchHistory = ['Phoenix'];
-var bttn = $('.search-confirm');
 var userInput = $('#user-input');
+var submit = $('#submit');
+var form = $('#form');
 var historyAppend = $('.search-history');
-var city = userInput;
+var CWCcd = $('#city-date');
+var CWCt = $('#temp');
+var CWCw = $('#wind');
+var CWCh = $('#humidity');
+var currentDay = moment().format('dddd, MMMM Do YYYY')
+var city;
 var lat;
 var lon;
 var APIKey = '51bd6ed6a7fd20bcc3f9e281517384f2';
-var queryURLLatLog = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&appid=' + APIKey;
-var queryURLForecast = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
-function dispStart () {
-    for (var i = 0; i < searchHistory.length; i++) {
-        var options = $('<button>');
-        options.text(searchHistory[i]);
-        options.addClass('search-options');
-        options.click(function() {
-            city = options.text();
-            fetch(queryURLLatLog)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(lat) {
-                console.log(lat);
-            })
-            .then(function(lon){
-                console.log(lon)
-            })
-        })
-        historyAppend.append(options);
-    }
-    
-}
-function searchBttn() {
 
+function searchBttn() {
+    getCoords();
 }
-function getLatLon() {
-    fetch(queryURLLatLog)
-    .then(function(response) {
+function getCoords() {
+    city = userInput.val();
+    var queryURL = 'http://api.openweathermap.org/geo/1.0/direct?q='+ city +'&limit=5&appid='+ APIKey;
+    fetch(queryURL)
+    .then(function(response){
         return response.json();
     })
-    .then(function(name) {
-        console.log(name);
+    .then(function(data){
+        lat = data[0].lat;
+        lon = data[0].lon;
+        getCurrent();
+    });
+}
+function getCurrent() {
+    var queryURLCurrent = 'http://api.openweathermap.org/data/2.5/weather?lat='+ lat +'&lon='+ lon +'&appid='+ APIKey + '&units=imperial';
+    fetch(queryURLCurrent)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        CWCcd.text(city + ' ' + '(' + currentDay + ')');
+        CWCt.text('Temp: '+data.main.temp + '°F');
+        CWCw.text('Wind: '+ data.wind.speed + ' mph');
+        CWCh.text('Humidity: ' + data.main.humidity + '%');
+    });
+    getForecast();
+}
+function getForecast() {
+    var queryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat +'&lon='+ lon +'&appid='+ APIKey + '&units=imperial';
+    fetch(queryURL)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
     })
 }
-function grabWeather() {
+function setWeather() {
 
 }
 function setHistory() {
@@ -56,4 +68,7 @@ var firstTimeLaunch = localStorage.getItem("searchHistory");
 if (firstTimeLaunch === null) {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
 }
-dispStart()
+
+form.submit(function(event){
+    searchBttn()
+})
