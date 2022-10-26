@@ -52,7 +52,6 @@ function getCurrent() {
         return response.json();
     })
     .then(function(data){
-        console.log(data);
         CWCcd.text(city + ' ' + '(' + currentDay + ')');
         CWCt.text('Temp: '+data.main.temp + '°F');
         CWCw.text('Wind: '+ data.wind.speed + ' mph');
@@ -74,7 +73,6 @@ function getForecast() {
         day4.attr('class', 'forecast-box bg-color');
         day5.attr('class', 'forecast-box bg-color');
         for (var i = 0; i < 5; i++) {
-            console.log('triggered')
             var date = $('<h3>');
             var temp = $('<h5>');
             var wind = $('<h5>');
@@ -148,20 +146,17 @@ function getHistory() {
 }
 // Renders clickable buttons to display previously searched cities.
 function dispHistory() {
-    console.log('dispHistory triggered');
     refreshHistory();
     getHistory();
     for (var i = 0; i < searchHistory.length; i++) {
         var bttn = $('<button>');
         var bruh = searchHistory[i];
-        console.log(bruh)
         bttn.addClass('search-options');
         bttn.text(bruh);
         bttn.attr('id', bruh);
         bttn.click(function(event) {
             clearWeather();
             getID(event.target.getAttribute('id'))
-            console.log(city)
             var queryURL = 'http://api.openweathermap.org/geo/1.0/direct?q='+ city +'&limit=5&appid='+ APIKey;
             fetch(queryURL)
             .then(function(response){
