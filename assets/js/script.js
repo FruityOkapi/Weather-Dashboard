@@ -1,3 +1,4 @@
+// All global variables
 var searchHistory = ['Phoenix'];
 var userInput = $('#user-input');
 var submit = $('#submit');
@@ -7,6 +8,7 @@ var CWCcd = $('#city-date');
 var CWCt = $('#temp');
 var CWCw = $('#wind');
 var CWCh = $('#humidity');
+// This sets current day with moment.js
 var currentDay = moment().format('dddd, MMMM Do YYYY')
 var city;
 var lat;
@@ -17,7 +19,9 @@ var day2 = $('#day2');
 var day3 = $('#day3');
 var day4 = $('#day4');
 var day5 = $('#day5');
+// This starts the weather dash
 function searchBttn() {
+    // Makes it so if the search history array already has a city to not add it
     if (!searchHistory.includes(userInput.val())) {
         searchHistory.push(userInput.val())
     }
@@ -26,6 +30,7 @@ function searchBttn() {
     dispHistory();
     getCoords();
 }
+// Gets the coordinates of the city in the userInput
 function getCoords() {
     city = userInput.val();
     var queryURL = 'http://api.openweathermap.org/geo/1.0/direct?q='+ city +'&limit=5&appid='+ APIKey;
@@ -39,6 +44,7 @@ function getCoords() {
         getCurrent();
     });
 }
+// Gets the current weather for the city and appends it.
 function getCurrent() {
     var queryURLCurrent = 'http://api.openweathermap.org/data/2.5/weather?lat='+ lat +'&lon='+ lon +'&appid='+ APIKey + '&units=imperial';
     fetch(queryURLCurrent)
@@ -54,6 +60,7 @@ function getCurrent() {
         getForecast();
     });
 }
+// Gets the forecast for the next 5 days and appends it to the cards.
 function getForecast() {
     var queryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat +'&lon='+ lon +'&appid='+ APIKey + '&units=imperial';
     fetch(queryURL)
@@ -125,17 +132,21 @@ function getForecast() {
         }
     })
 }
+// Clears the cards of text
 function clearWeather() {
     var del = $('.del');
     del.remove();
 }
+// Sets the search history
 function setHistory() {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 }
+// Gets the history
 function getHistory() {
     var history = localStorage.getItem('searchHistory');
     searchHistory = JSON.parse(history);
 }
+// Renders clickable buttons to display previously searched cities.
 function dispHistory() {
     console.log('dispHistory triggered');
     refreshHistory();
@@ -169,15 +180,19 @@ function dispHistory() {
 function getID(x) {
     city = x
 }
+// Refreshes the buttons for real time updates
 function refreshHistory() {
     var del = $('.search-options');
     del.remove();
 }
+// First time launch to prevent my item being null
 var firstTimeLaunch = localStorage.getItem('searchHistory');
 if (firstTimeLaunch === null) {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
 }
+// Initial start
 dispHistory();
+// Sets the submit function to search
 form.submit(function(event){
     searchBttn()
 })
