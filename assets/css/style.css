@@ -33,14 +33,6 @@ p {
     text-align: center;
 }
 
-ul {
-    list-style: none;
-}
-
-li {
-    display: inline;
-}
-
 .container {
     margin: 0 35px;
 }
@@ -66,14 +58,10 @@ li {
     padding-bottom: 10px;
 }
 
-.current-weather-card {
-
-}
-
 .search-confirm {
     width: 80%;
+    height: 32px;
     margin: 10px 0 0 0 ;
-    padding: 6px 0 0 0;
     border-radius: 10px;
     background-color: var(--search);
 }
@@ -104,14 +92,28 @@ li {
 
 .forecast {
     display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.forecast-box {
+    padding: 10px;
+    color: white;
 }
 
 .forecast-box:hover {
+    color: black;
+}
+
+.bg-color {
+    background-color: var(--forecast);
+}
+
+.bg-color:hover {
     background-color: var(--f-hover);
 }
 
 .weather {
-    border: dotted 2px black;
     width: 75%;
 }
 
