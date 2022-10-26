@@ -18,7 +18,12 @@ var day3 = $('#day3');
 var day4 = $('#day4');
 var day5 = $('#day5');
 function searchBttn() {
+    if (!searchHistory.includes(userInput.val())) {
+        searchHistory.push(userInput.val())
+    }
     clearWeather();
+    setHistory();
+    dispHistory();
     getCoords();
 }
 function getCoords() {
@@ -131,11 +136,48 @@ function getHistory() {
     var history = localStorage.getItem('searchHistory');
     searchHistory = JSON.parse(history);
 }
-var firstTimeLaunch = localStorage.getItem("searchHistory");
+function dispHistory() {
+    console.log('dispHistory triggered');
+    refreshHistory();
+    getHistory();
+    for (var i = 0; i < searchHistory.length; i++) {
+        var bttn = $('<button>');
+        var bruh = searchHistory[i];
+        console.log(bruh)
+        bttn.addClass('search-options');
+        bttn.text(bruh);
+        bttn.attr('id', bruh);
+        bttn.click(function(event) {
+            clearWeather();
+            getID(event.target.getAttribute('id'))
+            console.log(city)
+            var queryURL = 'http://api.openweathermap.org/geo/1.0/direct?q='+ city +'&limit=5&appid='+ APIKey;
+            fetch(queryURL)
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                lat = data[0].lat;
+                lon = data[0].lon;
+                getCurrent();
+            });
+        
+        })
+        historyAppend.append(bttn);
+    }
+}
+function getID(x) {
+    city = x
+}
+function refreshHistory() {
+    var del = $('.search-options');
+    del.remove();
+}
+var firstTimeLaunch = localStorage.getItem('searchHistory');
 if (firstTimeLaunch === null) {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
 }
-
+dispHistory();
 form.submit(function(event){
     searchBttn()
 })
